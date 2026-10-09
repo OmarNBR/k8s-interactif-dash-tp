@@ -21,7 +21,8 @@ services:
 
   # 2. Back-end FastAPI
   backend:
-    image: bibback:1
+    image: 
+      build: .
     container_name: library-backend
     environment:
       DB_HOST: postgres
@@ -37,12 +38,15 @@ services:
 
   # 3. Front-end Nginx
   frontend:
-    image: bibfront:1
+    image: nginx
     container_name: library-frontend
     ports:
       - "8080:80"
     depends_on:
       - backend
+    volumes:
+      - frontend/index.html:/usr/share/nginx/html
+      - frontend/default.conf:/etc/nginx/conf.d
 
 volumes:
   pgdata:
