@@ -1,0 +1,183 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0f172a;
+    color: #f8fafc;
+    margin: 0;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e293b;
+    padding: 15px 30px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.k8s-icon {
+    font-size: 2rem;
+}
+
+h1 {
+    font-size: 1.25rem;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.progress-badge {
+    background: #0284c7;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.action-bar {
+    text-align: center;
+    margin: 30px 0;
+}
+
+#check-btn {
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#check-btn:hover {
+    background: #15803d;
+}
+
+.architecture-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.namespace-box {
+    flex: 1;
+    min-width: 350px;
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 20px;
+    border: 2px dashed #475569;
+}
+
+.ns-front {
+    border-color: #38bdf8;
+}
+
+.ns-back {
+    border-color: #4ade80;
+}
+
+.namespace-box h2 {
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 0;
+    letter-spacing: 1px;
+}
+
+.grid-ns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.card {
+    background: #0f172a;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid #ef4444; /* Rouge par défaut */
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.status-red {
+    border-color: #ef4444;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.status-green {
+    border-color: #22c55e;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+}
+
+.card-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+.card-sub {
+    font-size: 0.65rem;
+    color: #94a3b8;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #1e293b;
+    margin: 5% auto;
+    padding: 25px;
+    border: 1px solid #475569;
+    width: 600px;
+    border-radius: 8px;
+    color: #f8fafc;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: white;
+}
+
+pre {
+    background: #0f172a;
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    border: 1px solid #334155;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion de Bibliothèque</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #f4f4f9; }
+        h1, h2 { color: #333; }
+        form { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        input { padding: 8px; margin-right: 10px; width: 25%; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        button.delete { background: #dc3545; }
+        button.delete:hover { background: #c82333; }
+        ul { list-style: none; padding: 0; }
+        li { background: #fff; padding: 12px; margin-bottom: 8px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <h1>📚 Gestionnaire de Bibliothèque</h1>
+
+    <form id="book-form">
+        <h2>Ajouter un livre</h2>
+        <input type="text" id="title" placeholder="Titre" required>
+        <input type="text" id="author" placeholder="Auteur" required>
+        <input type="number" id="year" placeholder="Année" required>
+        <button type="submit">Ajouter</button>
+    </form>
+
+    <h2>Liste des livres</h2>
+    <ul id="books-list"></ul>
+
+    <script>
+        const API_BASE_URL = "";
+        document.addEventListener('DOMContentLoaded', fetchBooks);
+
+        document.getElementById('book-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const year = parseInt(document.getElementById('year').value);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/books`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, author, year })
+                });
+
+                if (response.ok) {
+                    document.getElementById('book-form').reset();
+                    fetchBooks();
+                } else {
+                    alert('Erreur lors de l\'ajout du livre.');
+                }
+            } catch (err) {
+                console.error('Erreur réseau:', err);
+            }
+        });
+
+        async function fetchBooks() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/books`);
+                const books = await response.json();
+                
+                const list = document.getElementById('books-list');
+                list.innerHTML = '';
+
+                if (books.length === 0) {
+                    list.innerHTML = '<li>Aucun livre enregistré pour le moment.</li>';
+                    return;
+                }
+
+                books.forEach(book => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span><strong>${book.title}</strong> par ${book.author} (${book.year})</span>
+                        <button class="delete" onclick="deleteBook(${book.id})">Supprimer</button>
+                    `;
+                    list.appendChild(li);
+                });
+            } catch (err) {
+                console.error('Erreur lors du chargement des livres:', err);
+            }
+        }
+
+        async function deleteBook(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/books/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok || response.status === 204) {
+                    fetchBooks();
+                } else {
+                    alert('Erreur lors de la suppression.');
+                }
+            } catch (err) {
+                console.error('Erreur réseau:', err);
+            }
+        }
+    </script>
+</body>
+</html>

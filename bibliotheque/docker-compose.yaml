@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # 1. Base de données PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: library-db
+    environment:
+      POSTGRES_DB: library
+      POSTGRES_USER: admin_db
+      POSTGRES_PASSWORD: secure_password_123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin_db -d library"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Back-end FastAPI
+  backend:
+    image: bibback:1
+    container_name: library-backend
+    environment:
+      DB_HOST: postgres
+      DB_NAME: library
+      DB_USER: admin_db
+      DB_PASSWORD: secure_password_123
+      DB_PORT: "5432"
+    ports:
+      - "8001:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # 3. Front-end Nginx
+  frontend:
+    image: bibfront:1
+    container_name: library-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
